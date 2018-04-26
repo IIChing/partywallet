@@ -1,0 +1,274 @@
+<div class="row">
+  <div id="wallet" class="col-xs-12">
+ <nav>
+  <ul id="wallet-menu" class="list-inline">
+    <li><a class=""  data-page="page1">Balance</a></li>
+    <li> <a class="" data-page="page2">History</a></li>
+    <li><a class="" data-page="page3">Tools</a></li>
+    <li><a class="active" data-page="page4">Settings</a></li>
+  </ul>
+ </nav>      
+ <h2>Main Vue</h2>
+ <section id="page1" class="content balance">
+    {{#balances}} 
+      {{#balances-list}}
+        <div class="row">
+          <div class="col-xs-1">
+            <img src="https://xchain.io/icon/{{#toUpper}}{{asset}}{{/toUpper}}.png" alt={{asset}} >
+          </div>
+          <div class="col-xs-11">
+            <div class="row">
+              <div class="col-xs-8">
+                {{display_name}} <br /> 
+                {{#numberFormat}}{{.}}{{/numberFormat}}
+              </div>
+              <div class="col-xs-4">
+                {{#priceFormat}}{{.}}{{/priceFormat}}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/balances-list}}
+    {{/balances}}
+    </section>
+    <section id="page2" class="content history">
+
+    <div id="accordion" class="list-group">
+      {{#transactions}}
+      {{#transactions-list}} 
+      <div class="list-group-item acc-panel " >
+        <div class="row acc-header">
+          <div class="col-xs-2"> 
+            <img src="https://xchain.io/icon/{{asset}}.png" alt={{asset}} >
+          </div>
+          <div class="col-xs-10"> 
+            
+            <h4 class="list-group-item-heading">{{#getDescription}}{{.}}{{/getDescription}}  </h4>
+            <p class="list-group-item-text">{{asset}}</p>
+         </div>
+
+       </div>
+     </div>
+     <div class="row acc-body">
+        <div class="col-xs-12">
+
+<table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Transaction Hash</td>
+        <td>{{hash}}</td>
+      </tr>
+      <tr>
+        <td>TX Index</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Block #</td>
+        <td>{{block}}</td>
+      </tr>
+      <tr>
+        <td>Time</td>
+        <td>{{#getDate}}{{.}}{{/getDate}}</td>
+      </tr>
+      <tr>
+        <td>Asset</td>
+        <td>{{asset}}</td>
+      </tr>
+      <tr>
+        <td>quantity</td>
+        <td>{{#numberFormat}}{{.}}{{/numberFormat}}</td>
+      </tr>
+      <tr>
+        <td>source</td>
+        <td>{{source}}</td>
+      </tr>
+      <tr>
+        <td>Destination</td>
+        <td>{{dest}}</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>{{status}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+         </div></div>
+        {{/transactions-list}}
+      {{/transactions}}
+     </div>
+    </section> 
+    <section id="page3" class="content tools">
+        
+    
+<table id="sendFrom" class="table table-bordered">
+    <tbody>
+      <tr>
+        <td colspan="2" class="text-center">
+          <select id="select-token" class="form-control">
+        
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-xs-3">Sent to</td>
+        <td class="col-xs-9"><input id="address" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td>Balance</td>
+        <td id="balance"></td>
+      </tr>
+      <tr>
+        <td>USD</td>
+        <td><input id="price" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td>Amout</td>
+        <td><input id="amount" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">Transaction Priority</td>
+      </tr>
+      <tr>
+        <td>Priority</td>
+        <td id="priority">
+          <div class="btn-group btn-group-justified" role="group" >
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" data-fee value="1">Low</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" data-fee value="2">Medium</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" data-fee value="3">High</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Fee</td>
+        <td id="fee"></td>
+      </tr>
+    </tbody>
+  </table>
+  
+      <div class="alert alert-danger hidden" role="alert">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <div class="alert-title"></div>
+          <div class="alert-text"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div class="btn-group pull-right ">
+            <button type="button" class="btn btn-default yes">yes</button>
+            <button type="button" class="btn btn-default no">no</button>
+          </div>
+        </div>
+        </div>
+      </div>
+     <div class="text-center"></div><button id="send" class="btn btn-default btn-lg">Sent</button>
+    </section> 
+    <section id="page4" class="content setting">
+    <h4>Wallet Information</h4>
+      <table class="table table-inbox"> 
+        <tbody>
+          <tr>
+            <td >Address</td>
+            <td id='wallet-address'></td>
+          </tr>
+          <tr>
+            <td>Label</td>
+            <td id="label"></td>
+          </tr>
+
+          <tr>
+            <td>Network</td>
+            <td id="network"></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Sever Information</h4> 
+    {{#settings.network}}
+      <table class="table table-inbox">
+        <thead>
+          <tr>
+            <th> 
+              Bitcoin Mainnet
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td >CP Host</td>
+            <td id='main-host'>{{mainnet.cpHost}}</td>
+          </tr>
+          <tr>
+            <td>CP PORT</td>
+            <td id="main-port">{{mainnet.cpPort}}</td>
+          </tr>
+
+          <tr>
+            <td>CP USER</td>
+            <td id="main-user">{{mainnet.cpUser}}</td>
+          </tr>
+          <tr>
+            <td>CP PASS</td>
+            <td id="main-pass">{{mainnet.cpPass}}</td>
+          </tr>
+          <tr>
+            <td>USE SSL</td>
+            <td id="main-ssl">{{mainnet.cpSSL}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-inbox">
+        <thead>
+          <tr>
+            <th> 
+            Bitcoin Testnet
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td >CP Host</td>
+            <td id='test-host'>{{testnet.cpHost}}</td>
+          </tr>
+          <tr>
+            <td>CP PORT</td>
+            <td id="test-port">{{testnet.cpPort}}</td>
+          </tr>
+
+          <tr>
+            <td>CP USER</td>
+            <td id="test-user">{{testnet.cpUser}}</td>
+          </tr>
+          <tr>
+            <td>CP PASS</td>
+            <td id="test-pass">{{testnet.cpPass}}</td>
+          </tr>
+          <tr>
+            <td>USE SSL</td>
+            <td id="test-ssl"></td>
+          </tr>
+        </tbody>
+      </table>
+      {{/settings.network}}
+      <button id="logout" class="btn btn-danger">Logout/Clear Data</button>
+      <div class="alert alert-danger hidden" role="alert">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          This is a primary alert—check it out!
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div class="btn-group pull-right ">
+            <button type="button" class="btn btn-default yes">yes</button>
+            <button type="button" class="btn btn-default no">no</button>
+          </div>
+        </div>
+        </div>
+        </div>
+    </section> 
+  </div>
+</div>

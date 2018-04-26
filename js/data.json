@@ -1,0 +1,9 @@
+{ "pages" : [
+    {
+      "title" : "Wellcome",
+      "desc" : '<p algign="jusitify"> Please click a button below to indicate if you would like to gemearate a new wallet, or use an existing wallet passphrase. </p>'
+    },{
+      "title" : "Wallet",
+      "desc" : 'Das leben ist ist schön'
+    }, 
+  ]}
